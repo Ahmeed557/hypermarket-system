@@ -1,0 +1,19 @@
+server:
+  port: 8761  # ← الـ port اللي الـ service هيشتغل عليه
+
+spring:
+  application:
+    name: discovery-service  # ← اسم الـ service
+
+eureka:
+  client:
+    register-with-eureka: false  # ← مش محتاج يسجل نفسه لأنه هو الـ registry نفسه
+    fetch-registry: false        # ← مش محتاج يجيب معلومات من نفسه
+  server:
+    enable-self-preservation: false  # ← عشان التطوير، لو service وقف يشيله فوراً
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info  # ← endpoints للـ health check

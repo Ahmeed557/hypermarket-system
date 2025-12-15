@@ -1,0 +1,23 @@
+server:
+  port: 8081  # User Service على port 8081
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:mysql://mysql:3306/hypermarket_db  # عنوان الـ Database
+    username: root
+    password: root123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update  # يعمل الـ tables تلقائياً
+    show-sql: true  # يظهر SQL queries في الـ console
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka/

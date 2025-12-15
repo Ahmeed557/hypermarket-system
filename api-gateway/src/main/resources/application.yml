@@ -1,0 +1,48 @@
+server:
+  port: 8080  # ← الـ Gateway هيشتغل على port 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true  # ← يلاقي الـ services من Eureka تلقائياً
+          lower-case-service-id: true
+      routes:  # ← Routes: ده بيحدد كل path يروح لمين
+        
+        # User Service Routes (login & register بدون authentication)
+        - id: user-service
+          uri: lb://user-service  # lb = Load Balancer من Eureka
+          predicates:
+            - Path=/api/users/**  # ← أي request يبدأ بـ /api/users يروح للـ user-service
+        
+        # Product Service Routes (محتاج JWT)
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/api/products/**
+          filters:
+            - JwtAuthenticationFilter  # ← يتأكد من الـ Token الأول
+        
+        # Order Service Routes (محتاج JWT)
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - JwtAuthenticationFilter
+        
+        # Inventory Service Routes (محتاج JWT)
+        - id: inventory-service
+          uri: lb://inventory-service
+          predicates:
+            - Path=/api/inventory/**
+          filters:
+            - JwtAuthenticationFilter
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka/  # ← عنوان Eureka

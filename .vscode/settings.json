@@ -1,0 +1,6 @@
+{
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.project.sourcePaths": [
+        "inventory-service/src/main/java/com/hypermarket/inventory_service"
+    ]
+}
